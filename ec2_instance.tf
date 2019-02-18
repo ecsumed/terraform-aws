@@ -6,7 +6,9 @@ variable "conn_pub_key" {}
 variable "conn_priv_key" {}
 
 provider "aws" {
-  region = "us-west-2"
+  region = "${var.region}"
+  access_key = "${var.aws_access_key_id}"
+  secret_key = "${var.aws_secret_access_key}"
 }
 
 data "aws_ami" "debian" {
