@@ -37,7 +37,7 @@ resource "aws_instance" "fhd-instance-1" {
   instance_type = "t2.micro"
 
   tags {
-    Name = "fhd-terraform-created-machine"
+    Name = "fhd-terraform-created-carbon-1"
   }
 
   key_name = "${aws_key_pair.fhd-key.id}"
@@ -61,7 +61,55 @@ resource "aws_instance" "fhd-instance-2" {
   instance_type = "t2.micro"
 
   tags {
-    Name = "fhd-terraform-created-machine"
+    Name = "fhd-terraform-created-carbon-2"
+  }
+
+  key_name = "${aws_key_pair.fhd-key.id}"
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'remote provisioner' > terraform_remote_provisioner",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "${var.conn_user}"
+      private_key = "${file(var.conn_priv_key)}"
+      timeout     = "30s"
+    }
+  }
+}
+
+resource "aws_instance" "fhd-instance-3" {
+  ami           = "${data.aws_ami.debian.id}"
+  instance_type = "t2.micro"
+
+  tags {
+    Name = "fhd-terraform-created-lb-1"
+  }
+
+  key_name = "${aws_key_pair.fhd-key.id}"
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'remote provisioner' > terraform_remote_provisioner",
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = "${var.conn_user}"
+      private_key = "${file(var.conn_priv_key)}"
+      timeout     = "30s"
+    }
+  }
+}
+
+resource "aws_instance" "fhd-instance-4" {
+  ami           = "${data.aws_ami.debian.id}"
+  instance_type = "t2.micro"
+
+  tags {
+    Name = "fhd-terraform-created-graphite-1"
   }
 
   key_name = "${aws_key_pair.fhd-key.id}"
@@ -81,8 +129,15 @@ resource "aws_instance" "fhd-instance-2" {
 }
 
 output ip {
-  value = "${aws_instance.fhd-instance-1.public_ip}"
+  value = "carbon 1 ${aws_instance.fhd-instance-1.public_ip}"
 }
 output ip2 {
-  value = "${aws_instance.fhd-instance-2.public_ip}"
+  value = "carbon 2 ${aws_instance.fhd-instance-2.public_ip}"
+}
+output ip3 {
+  value = "load balancer ${aws_instance.fhd-instance-3.public_ip}"
+}
+
+output ip4 {
+  value = "graphite web ${aws_instance.fhd-instance-4.public_ip}"
 }

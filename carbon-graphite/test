@@ -1,0 +1,2 @@
+echo "test.metric.endpoint $((RANDOM%100)) `date +%s`" | nc -c localhost 2003 
+
