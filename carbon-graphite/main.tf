@@ -22,13 +22,24 @@ module "key_pairs" {
 
 }
 
-module "carbons" {
-  source = "./carbons"
+module "carbon1" {
+  source = "./carbon1"
 
   ssh_pub_key_id = "${module.key_pairs.ssh_key_id}"
   ssh_conn_user = "${var.conn_user}"
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
+  carbon_ch = "a"
+}
+
+module "carbon2" {
+  source = "./carbon2"
+
+  ssh_pub_key_id = "${module.key_pairs.ssh_key_id}"
+  ssh_conn_user = "${var.conn_user}"
+  ssh_conn_priv_key = "${var.conn_priv_key}"
+  image_id = "${module.images.id}"
+  carbon_ch = "b"
 }
 
 module "lb_relay" {
@@ -39,7 +50,7 @@ module "lb_relay" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
 
-  carbons = "${module.carbons.carbon1_public_ip}:2004:a, ${module.carbons.carbon2_public_ip}:2004:b"
+  carbons = "${module.carbon1.public_ip}:2004:a, ${module.carbon2.public_ip}:2004:b"
 }
 
 module "graphite" {
@@ -50,15 +61,15 @@ module "graphite" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
   
-  carbons = "\"${module.carbons.carbon1_public_ip}\", \"${module.carbons.carbon2_public_ip}\""
+  carbons = "\"${module.carbon1.public_ip}\", \"${module.carbon2.public_ip}\""
 }
 
 output carbon1 {
-  value = "${module.carbons.carbon1_public_ip}"
+  value = "${module.carbon1.public_ip}"
 }
 
 output carbon2 {
-  value = "${module.carbons.carbon2_public_ip}"
+  value = "${module.carbon2.public_ip}"
 }
 
 output lb_relay {
