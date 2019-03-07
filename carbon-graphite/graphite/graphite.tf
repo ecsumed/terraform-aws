@@ -2,6 +2,14 @@ variable "ssh_pub_key_id" {}
 variable "ssh_conn_priv_key" {}
 variable "ssh_conn_user" {}
 variable "image_id" {}
+variable "carbons" {}
+
+data "template_file" "bootstrap" {
+  template = "${file("${path.module}/bootstrap.tmpl")}"
+  vars {
+    carbons = "${var.carbons}"
+  }
+}
 
 resource "aws_instance" "instance-1" {
   ami           = "${var.image_id}"
@@ -14,9 +22,7 @@ resource "aws_instance" "instance-1" {
   key_name = "${var.ssh_pub_key_id}"
 
   provisioner "remote-exec" {
-    inline = [
-      "echo 'remote provisioner' > terraform_remote_provisioner",
-    ]
+    inline = "sudo ${data.template_file.bootstrap.rendered}"
 
     connection {
       type        = "ssh"

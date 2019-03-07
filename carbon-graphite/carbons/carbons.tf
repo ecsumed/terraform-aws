@@ -3,7 +3,7 @@ variable "ssh_conn_priv_key" {}
 variable "ssh_conn_user" {}
 variable "image_id" {}
 
-resource "template_file" "bootstrap" {
+data "template_file" "bootstrap" {
   template = "${file("${path.module}/bootstrap.tmpl")}"
 }
 
@@ -22,7 +22,7 @@ resource "aws_instance" "instance-1" {
   key_name = "${var.ssh_pub_key_id}"
 
   provisioner "remote-exec" {
-    inline = "sudo ${template_file.bootstrap.rendered}"
+    inline = "sudo ${data.template_file.bootstrap.rendered}"
 
     connection {
       type        = "ssh"
@@ -48,7 +48,7 @@ resource "aws_instance" "instance-2" {
   key_name = "${var.ssh_pub_key_id}"
   
   provisioner "remote-exec" {
-    inline = "sudo ${template_file.bootstrap.rendered}"
+    inline = "sudo ${data.template_file.bootstrap.rendered}"
 
     connection {
       type        = "ssh"
