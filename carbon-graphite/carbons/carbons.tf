@@ -3,6 +3,10 @@ variable "ssh_conn_priv_key" {}
 variable "ssh_conn_user" {}
 variable "image_id" {}
 
+resource "template_file" "bootstrap" {
+  template = "${file("${path.module}/bootstrap.tmpl")}"
+}
+
 resource "aws_instance" "instance-1" {
   ami           = "${var.image_id}"
   instance_type = "t2.micro"
@@ -18,9 +22,7 @@ resource "aws_instance" "instance-1" {
   key_name = "${var.ssh_pub_key_id}"
 
   provisioner "remote-exec" {
-    inline = [
-      "echo 'remote provisioner' > terraform_remote_provisioner",
-    ]
+    inline = "sudo ${template_file.bootstrap.rendered}"
 
     connection {
       type        = "ssh"
@@ -44,11 +46,9 @@ resource "aws_instance" "instance-2" {
   }
 
   key_name = "${var.ssh_pub_key_id}"
-
+  
   provisioner "remote-exec" {
-    inline = [
-      "echo 'remote provisioner' > terraform_remote_provisioner",
-    ]
+    inline = "sudo ${template_file.bootstrap.rendered}"
 
     connection {
       type        = "ssh"
