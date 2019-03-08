@@ -58,7 +58,7 @@ module "graphite" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
   
-  carbons = "\"${join(", ", module.carbons.public_ips)}\""
+  carbons = "\"${join("\", \"", module.carbons.public_ips)}\""
 }
 
 output carbons {
