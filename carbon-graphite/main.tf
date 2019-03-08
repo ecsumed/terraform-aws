@@ -5,6 +5,13 @@ variable "conn_user" {}
 variable "conn_pub_key" {}
 variable "conn_priv_key" {}
 
+variable "carbon_hosts" {
+  default = {
+    "a" = "carbon-1"
+    "b" = "carbon-2"
+  }
+}
+
 provider "aws" {
   region = "${var.region}"
   access_key = "${var.aws_access_key_id}"
@@ -22,24 +29,14 @@ module "key_pairs" {
 
 }
 
-module "carbon1" {
-  source = "./carbon1"
+module "carbons" {
+  source = "./carbons"
 
   ssh_pub_key_id = "${module.key_pairs.ssh_key_id}"
   ssh_conn_user = "${var.conn_user}"
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
-  carbon_ch = "a"
-}
-
-module "carbon2" {
-  source = "./carbon2"
-
-  ssh_pub_key_id = "${module.key_pairs.ssh_key_id}"
-  ssh_conn_user = "${var.conn_user}"
-  ssh_conn_priv_key = "${var.conn_priv_key}"
-  image_id = "${module.images.id}"
-  carbon_ch = "b"
+  carbon_hosts = "${var.carbon_hosts}"
 }
 
 module "lb_relay" {
@@ -50,7 +47,7 @@ module "lb_relay" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
 
-  carbons = "${module.carbon1.public_ip}:2004:a, ${module.carbon2.public_ip}:2004:b"
+  carbons = "${join(", ", formatlist("%s:2004:%s", module.carbons.public_ips, keys(var.carbon_hosts)))}"
 }
 
 module "graphite" {
@@ -61,15 +58,11 @@ module "graphite" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
   
-  carbons = "\"${module.carbon1.public_ip}\", \"${module.carbon2.public_ip}\""
+  carbons = "\"${join(", ", module.carbons.public_ips)}\""
 }
 
-output carbon1 {
-  value = "${module.carbon1.public_ip}"
-}
-
-output carbon2 {
-  value = "${module.carbon2.public_ip}"
+output carbons {
+  value = "${module.carbons.public_ips}"
 }
 
 output lb_relay {
