@@ -87,7 +87,6 @@ EOF
 sudo apachectl -t && /usr/sbin/service apache2 restart
 
 sudo cp /tmp/carbon_conf /opt/graphite/conf/carbon.conf
-sudo cp /opt/graphite/conf/carbon.conf.example /opt/graphite/conf/carbon.conf
 sudo cp /opt/graphite/conf/storage-schemas.conf.example /opt/graphite/conf/storage-schemas.conf
 
 sudo /opt/graphite/bin/carbon-cache.py --instance=${carbon_ch} start

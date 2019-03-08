@@ -72,8 +72,8 @@ sudo mkdir /mnt/whisper
 sudo rm -rf /opt/graphite/storage/whisper
 sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
-cp /opt/graphite/webapp/graphite/local_settings.py.example /opt/graphite/webapp/graphite/local_settings.py
-sed -i 's/^#CLUSTER_SERVERS = .*$/CLUSTER_SERVERS = [${carbons}]/' /opt/graphite/webapp/graphite/local_settings.py
+sudo cp /opt/graphite/webapp/graphite/local_settings.py.example /opt/graphite/webapp/graphite/local_settings.py
+sudo sed -i 's/^#CLUSTER_SERVERS = .*$/CLUSTER_SERVERS = [${carbons}]/' /opt/graphite/webapp/graphite/local_settings.py
 
 sudo apachectl -t && /usr/sbin/service apache2 restart
 
