@@ -74,9 +74,9 @@ sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
 cat>>/tmp/carbon_conf<<EOF
 [cache]
-LINE_RECEIVER_INTERFACE = 127.0.0.1
-PICKLE_RECEIVER_INTERFACE = 127.0.0.1
-CACHE_QUERY_INTERFACE = 127.0.0.1
+LINE_RECEIVER_INTERFACE = 0.0.0.0
+PICKLE_RECEIVER_INTERFACE = 0.0.0.0
+CACHE_QUERY_INTERFACE = 0.0.0.0
 
 [cache:${carbon_ch}]
 LINE_RECEIVER_PORT = 2003
