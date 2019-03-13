@@ -4,7 +4,7 @@ printf 'Package: *\nPin: release a=unstable\nPin-Priority: 90\n' | sudo tee /etc
 sudo apt update
 sudo apt install wireguard -y
 
-cat>>/etc/wireguard/wg0.conf<<EOF
+sudo tee /etc/wireguard/wg0.conf <<EOF
 [Interface]
 Address = 10.100.100.1/24
 SaveConfig = true
