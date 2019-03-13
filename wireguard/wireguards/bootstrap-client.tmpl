@@ -1,0 +1,19 @@
+# Ubuntu install
+sudo add-apt-repository ppa:wireguard/wireguard
+sudo apt-get update
+sudo apt-get install wireguard
+
+# /etc/wireguard/wg0-client.conf
+cat>>/etc/wireguard/wg0-client.conf<<EOF
+[Interface]
+Address = 10.100.100.2/32
+PrivateKey = ${client_priv_key} 
+
+[Peer]
+PublicKey = ${serv_pub_key}
+Endpoint = ${server_ip}:51820
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 21
+EOF
+
+sudo wg-quick up wg0-client
