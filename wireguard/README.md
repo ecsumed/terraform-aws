@@ -10,5 +10,10 @@ region = "<region>"
 conn_user = "<image ssh user>"
 conn_pub_key = "<pub key path>"
 conn_priv_key = "<private key path>"
-```
 
+# wg genkey | tee >(wg pubkey)
+serv_priv_key = ""
+serv_pub_key = ""
+client_priv_key = ""
+client_pub_key = ""
+```
