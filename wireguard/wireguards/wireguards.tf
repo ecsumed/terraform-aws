@@ -18,14 +18,6 @@ resource "template_file" "bootstrap" {
   }
 }
 
-resource "template_file" "bootstrap-client" {
-  template = "${file("${path.module}/bootstrap-client.tmpl")}"
-  vars {
-    serv_pub_key = "${var.serv_pub_key}"
-    client_priv_key = "${var.client_priv_key}"
-  }
-}
-
 resource "aws_instance" "instance" {
   count = "${length(keys(var.wg_hosts))}"
 
@@ -51,6 +43,15 @@ resource "aws_instance" "instance" {
       private_key = "${file(var.ssh_conn_priv_key)}"
       timeout     = "30s"
     }
+  }
+}
+
+resource "template_file" "bootstrap-client" {
+  template = "${file("${path.module}/bootstrap-client.tmpl")}"
+  vars {
+    serv_pub_key = "${var.serv_pub_key}"
+    client_priv_key = "${var.client_priv_key}"
+    server_ip = "${aws_instance.instance.public_ip}"
   }
 }
 
