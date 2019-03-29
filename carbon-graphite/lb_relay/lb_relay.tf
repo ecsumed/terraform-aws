@@ -16,7 +16,7 @@ resource "aws_instance" "instance-1" {
   instance_type = "t2.micro"
 
   tags {
-    Name = "fhd-terraform-created-lb-1"
+    Name = "fhd-terra-lb-1"
   }
 
   key_name = "${var.ssh_pub_key_id}"
