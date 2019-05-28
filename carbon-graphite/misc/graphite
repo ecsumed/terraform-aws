@@ -8,7 +8,9 @@
   {
     "target": [
       "sumSeries(*.relays.*.destinations.*.sent)",
-      "*.relays.*.metricsReceived"
+      "*.relays.*.metricsReceived",
+      "carbon.relays.*.destinations.*.fullQueueDrops",
+      "carbon.relays.*.destinations.*.relayMaxQueueLength"
     ]
   },
   {
@@ -16,13 +18,6 @@
       "sumSeries(*.agents.*.creates)",
       "sumSeries(*.agents.*.droppedCreates)"
     ]
-  },
-  {
-    "target": [
-      "sumSeries(*.relays.*.destinations.*.sent)",
-      "sumSeries(carbon.relays.*.destinations.*.relayMaxQueueLength)"
-    ],
-    "hideLegend": "false"
   },
   {
     "target": [
