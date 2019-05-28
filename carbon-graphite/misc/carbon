@@ -1,0 +1,12 @@
+[
+  {
+    "target": [
+      "cg.*.*"
+    ]
+  },
+  {
+    "target": [
+      "countSeries(cg.*.*)"
+    ]
+  }
+]

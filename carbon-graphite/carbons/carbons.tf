@@ -17,7 +17,7 @@ resource "aws_instance" "instance" {
   count = "${length(keys(var.carbon_hosts))}"
 
   ami           = "${var.image_id}"
-  instance_type = "t2.micro"
+  instance_type = "c5.xlarge"
 
   tags {
     Name = "fhd-terra-${element(values(var.carbon_hosts), count.index)}"

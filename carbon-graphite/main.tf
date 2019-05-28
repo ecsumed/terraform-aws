@@ -8,7 +8,6 @@ variable "conn_priv_key" {}
 variable "carbon_hosts" {
   default = {
     "a" = "carbon-1"
-    "b" = "carbon-2"
   }
 }
 

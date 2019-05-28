@@ -1,0 +1,49 @@
+[
+  {
+    "target": [
+      "*.agents.*.metricsReceived"
+    ]
+  },
+  {
+    "target": [
+      "*.relays.*.destinations.*.sent"
+    ]
+  },
+  {
+    "target": [
+      "*.relays.*.metricsReceived"
+    ]
+  },
+  {
+    "target": [
+      "*.agents.*.creates"
+    ]
+  },
+  {
+    "target": [
+      "*.agents.*.droppedCreates"
+    ]
+  },
+  {
+    "target": [
+      "*.agents.*.cache.queues"
+    ]
+  },
+  {
+    "target": [
+      "carbon.relays.*.destinations.*.relayMaxQueueLength"
+    ]
+  },
+  {
+    "target": [
+      "carbon.relays.*.destinations.*.queuedUntilConnected"
+    ],
+    "graphOnly": "false",
+    "hideLegend": "true"
+  },
+  {
+    "target": [
+      "carbon.agents.*.cache.queries"
+    ]
+  }
+]

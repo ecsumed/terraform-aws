@@ -125,10 +125,16 @@ MIN_RESET_INTERVAL=121
 
 EOF
 
+cat>>/tmp/storage-schemas.conf<<EOF
+[default]
+pattern = .*
+retentions = 300s:1d,600s:2d,1200s:3d,2400s:4d,4800s:5d
+EOF
+
 sudo apachectl -t && /usr/sbin/service apache2 restart
 
 sudo cp /tmp/carbon_conf /opt/graphite/conf/carbon.conf
-sudo cp /opt/graphite/conf/storage-schemas.conf.example /opt/graphite/conf/storage-schemas.conf
+sudo cp /tmp/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
 
 sudo /opt/graphite/bin/carbon-cache.py --instance=${carbon_ch} start
 
