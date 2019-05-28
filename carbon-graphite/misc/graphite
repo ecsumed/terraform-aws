@@ -1,49 +1,37 @@
 [
   {
     "target": [
-      "*.agents.*.metricsReceived"
+      "sumSeries(*.agents.*.metricsReceived)",
+      "sumSeries(*.agents.*.cache.queues)"
     ]
   },
   {
     "target": [
-      "*.relays.*.destinations.*.sent"
-    ]
-  },
-  {
-    "target": [
+      "sumSeries(*.relays.*.destinations.*.sent)",
       "*.relays.*.metricsReceived"
     ]
   },
   {
     "target": [
-      "*.agents.*.creates"
+      "sumSeries(*.agents.*.creates)",
+      "sumSeries(*.agents.*.droppedCreates)"
     ]
   },
   {
     "target": [
-      "*.agents.*.droppedCreates"
-    ]
-  },
-  {
-    "target": [
-      "*.agents.*.cache.queues"
-    ]
-  },
-  {
-    "target": [
-      "carbon.relays.*.destinations.*.relayMaxQueueLength"
-    ]
-  },
-  {
-    "target": [
-      "carbon.relays.*.destinations.*.queuedUntilConnected"
+      "sumSeries(*.relays.*.destinations.*.sent)",
+      "sumSeries(carbon.relays.*.destinations.*.relayMaxQueueLength)"
     ],
-    "graphOnly": "false",
-    "hideLegend": "true"
+    "hideLegend": "false"
   },
   {
     "target": [
-      "carbon.agents.*.cache.queries"
+      "sumSeries(carbon.agents.*.cache.queries)"
+    ]
+  },
+  {
+    "target": [
+      "carbon.agents.*.pointsPerUpdate"
     ]
   }
 ]
