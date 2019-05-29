@@ -8,6 +8,15 @@ build-essential \
 libpangocairo-1.0-0 \
 libffi-dev \
 libapache2-mod-wsgi \
+htop \
+unzip \
+libz-dev \
+libncurses5-dev \
+
+wget https://github.com/Atoptool/atop/archive/master.zip
+unzip master.zip
+cd atop-master/
+sudo make systemdinstall
 
 sudo export PYTHONPATH="/opt/graphite/lib/:/opt/graphite/webapp/"
 sudo pip install --no-binary=:all: https://github.com/graphite-project/whisper/tarball/master
