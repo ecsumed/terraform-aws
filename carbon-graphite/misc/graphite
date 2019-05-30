@@ -8,9 +8,7 @@
   {
     "target": [
       "sumSeries(*.relays.*.destinations.*.sent)",
-      "*.relays.*.metricsReceived",
-      "carbon.relays.*.destinations.*.fullQueueDrops",
-      "carbon.relays.*.destinations.*.relayMaxQueueLength"
+      "*.relays.*.metricsReceived"
     ]
   },
   {
@@ -27,6 +25,18 @@
   {
     "target": [
       "carbon.agents.*.pointsPerUpdate"
+    ]
+  },
+  {
+    "target": [
+      "carbon.relays.*.destinations.*.queuedUntilReady",
+      "carbon.relays.*.destinations.*.relayMaxQueueLength",
+      "carbon.relays.*.destinations.*.fullQueueDrops"
+    ]
+  },
+  {
+    "target": [
+      "carbon.relays.*.destinations.*.batchesSent"
     ]
   }
 ]
