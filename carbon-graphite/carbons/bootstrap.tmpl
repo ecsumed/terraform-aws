@@ -137,7 +137,7 @@ EOF
 cat>>/tmp/storage-schemas.conf<<EOF
 [default]
 pattern = .*
-retentions = 300s:1d,600s:2d,1200s:3d,2400s:4d,4800s:5d
+retentions = 150s:1d,300s:2d,600s:3d,1200s:4d,2400s:5d
 EOF
 
 sudo apachectl -t && /usr/sbin/service apache2 restart
