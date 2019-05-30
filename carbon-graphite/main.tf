@@ -8,6 +8,8 @@ variable "conn_priv_key" {}
 variable "carbon_hosts" {
   default = {
     "a" = "carbon-1"
+    "b" = "carbon-2"
+    "c" = "carbon-3"
   }
 }
 
@@ -46,7 +48,7 @@ module "lb_relay" {
   ssh_conn_priv_key = "${var.conn_priv_key}"
   image_id = "${module.images.id}"
 
-  carbons = "${join(", ", formatlist("%s:2004:%s", module.carbons.public_ips, keys(var.carbon_hosts)))}"
+  carbons = "${join("\n", formatlist("%s:2003=%s", module.carbons.public_ips, keys(var.carbon_hosts)))}"
 }
 
 module "graphite" {

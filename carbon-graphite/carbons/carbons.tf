@@ -17,7 +17,7 @@ resource "aws_instance" "instance" {
   count = "${length(keys(var.carbon_hosts))}"
 
   ami           = "${var.image_id}"
-  instance_type = "c5.xlarge"
+  instance_type = "c5.large"
 
   tags {
     Name = "fhd-terra-${element(values(var.carbon_hosts), count.index)}"
@@ -25,6 +25,8 @@ resource "aws_instance" "instance" {
 
   root_block_device {
     volume_size = 100
+    volume_type = "io1"
+    iops = 3000
   }
 
   key_name = "${var.ssh_pub_key_id}"
