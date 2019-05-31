@@ -85,6 +85,8 @@ sudo mkdir /mnt/whisper
 sudo rm -rf /opt/graphite/storage/whisper
 sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
+sudo chown carbon:carbon /mnt/whisper -R
+
 cat>>/tmp/carbon_conf<<EOF
 [cache]
 LINE_RECEIVER_INTERFACE = 0.0.0.0

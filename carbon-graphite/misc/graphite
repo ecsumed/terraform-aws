@@ -21,8 +21,8 @@
     "target": [
       "sumSeries(*.agents.*.creates)",
       "sumSeries(*.agents.*.droppedCreates)",
-      "carbon.agents.*.persister.created",
-      "carbon.agents.ip-172-31-44-45.persister.throttledCreates"
+      "carbon.agents.ip-172-31-44-45.persister.throttledCreates",
+      "sumSeries(carbon.agents.*.persister.created)"
     ]
   },
   {
