@@ -85,8 +85,6 @@ sudo mkdir /mnt/whisper
 sudo rm -rf /opt/graphite/storage/whisper
 sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
-sudo chown carbon:carbon /mnt/whisper -R
-
 cat>>/tmp/carbon_conf<<EOF
 [cache]
 LINE_RECEIVER_INTERFACE = 0.0.0.0
@@ -229,6 +227,8 @@ sudo cp /tmp/go-carbon.conf /etc/go-carbon/go-carbon.conf
 
 # sudo /opt/graphite/bin/carbon-cache.py --instance=${carbon_ch} start
 sudo systemctl restart go-carbon
+
+sudo chown carbon:carbon /mnt/whisper -R
 
 sudo /usr/sbin/service apache2 restart
 echo 'done'

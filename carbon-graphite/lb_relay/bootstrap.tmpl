@@ -73,8 +73,6 @@ sudo mkdir /mnt/whisper
 sudo rm -rf /opt/graphite/storage/whisper
 sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
-sudo chown carbon:carbon /mnt/whisper -R
-
 cat>>/tmp/carbon_conf<<EOF
 #[relay]
 #LINE_RECEIVER_INTERFACE = 0.0.0.0
@@ -181,6 +179,8 @@ sudo relay -f /opt/graphite/conf/carbon-relay.conf -q 1000000 -l /opt/graphite/s
 
 sudo cp /opt/graphite/conf/storage-schemas.conf.example /opt/graphite/conf/storage-schemas.conf
 sudo /opt/graphite/bin/carbon-relay.py start
+
+sudo chown carbon:carbon /mnt/whisper -R
 
 sudo /usr/sbin/service apache2 restart
 echo 'done'
