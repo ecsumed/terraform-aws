@@ -8,6 +8,7 @@ build-essential \
 libpangocairo-1.0-0 \
 libffi-dev \
 libapache2-mod-wsgi \
+unzip \
 
 sudo export PYTHONPATH="/opt/graphite/lib/:/opt/graphite/webapp/"
 sudo pip install --no-binary=:all: https://github.com/graphite-project/whisper/tarball/master
@@ -83,7 +84,6 @@ cat>>/tmp/carbon_conf<<EOF
 #RELAY_METHOD = consistent-hashing
 #REPLICATION_FACTOR = 1
 #
-#DESTINATIONS = ${carbons}
 #
 #MAX_QUEUE_SIZE = 1000000
 #MAX_DATAPOINTS_PER_MESSAGE = 25000
@@ -172,9 +172,9 @@ unzip master.zip
 cd carbon-c-relay-master/
 ./configure
 make
-make install
+sudo make install
 
-sudo relay -f /opt/graphite/conf/carbon-relay.conf -q 1000000 -l /opt/graphite/storage/log/carbon-relay/carbon-relay-a/listener.log -P /var/run/carbon-relay.pid -D
+sudo relay -f /opt/graphite/conf/carbon-relay.conf -q 1000000 -l /opt/graphite/storage/log/carbon-c-relay.log -P /var/run/carbon-relay.pid -D
 ###########################################
 
 sudo cp /opt/graphite/conf/storage-schemas.conf.example /opt/graphite/conf/storage-schemas.conf
