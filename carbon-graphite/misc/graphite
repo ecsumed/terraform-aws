@@ -2,7 +2,8 @@
   {
     "target": [
       "sumSeries(*.agents.*.metricsReceived)",
-      "sumSeries(*.agents.*.cache.queues)"
+      "sumSeries(*.agents.*.cache.queues)",
+      "sumSeries(*.agents.*.cache.metrics)"
     ],
     "margin": "",
     "areaMode": "first",
@@ -19,12 +20,15 @@
   {
     "target": [
       "sumSeries(*.agents.*.creates)",
-      "sumSeries(*.agents.*.droppedCreates)"
+      "sumSeries(*.agents.*.droppedCreates)",
+      "carbon.agents.*.persister.created",
+      "carbon.agents.ip-172-31-44-45.persister.throttledCreates"
     ]
   },
   {
     "target": [
-      "sumSeries(carbon.agents.*.updateOperations)"
+      "sumSeries(carbon.agents.*.updateOperations)",
+      "sumSeries(carbon.agents.*.persister.updateOperations)"
     ],
     "areaMode": "first"
   },
@@ -38,7 +42,7 @@
   {
     "target": [
       "carbon.agents.*.pointsPerUpdate",
-      ""
+      "carbon.agents.*.persister.pointsPerUpdate"
     ]
   },
   {
