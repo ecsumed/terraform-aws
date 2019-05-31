@@ -3,7 +3,10 @@
     "target": [
       "sumSeries(*.agents.*.metricsReceived)",
       "sumSeries(*.agents.*.cache.queues)"
-    ]
+    ],
+    "margin": "",
+    "areaMode": "first",
+    "lineWidth": "2"
   },
   {
     "target": [
@@ -21,29 +24,26 @@
   },
   {
     "target": [
-      "sumSeries(carbon.agents.*.cache.queries)"
-    ]
-  },
-  {
-    "target": [
-      "carbon.agents.*.pointsPerUpdate"
-    ]
+      "sumSeries(carbon.agents.*.updateOperations)"
+    ],
+    "areaMode": "first"
   },
   {
     "target": [
       "sumSeries(carbon.relays.*.destinations.*.dropped)",
-      "carbon.relays.*.destinations.*.sent",
-      "sumSeries(carbon.relays.*.destinations.*.queued)"
+      "sumSeries(carbon.relays.*.destinations.*.queued)",
+      "sumSeries(carbon.relays.*.destinations.*.sent)"
     ]
   },
   {
     "target": [
-      "carbon.relays.*.destinations.*.batchesSent"
+      "carbon.agents.*.pointsPerUpdate",
+      ""
     ]
   },
   {
     "target": [
-      "sumSeries(carbon.agents.*.updateOperations)"
+      "sumSeries(carbon.agents.*.cache.queries)"
     ]
   }
 ]
