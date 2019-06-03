@@ -52,6 +52,7 @@
   },
   {
     "target": [
+      "sumSeries(carbon.relays.*.metricsDropped)",
       "sumSeries(carbon.agents.*.cache.overflow)"
     ],
     "majorGridLineColor": "C0C0C0"
