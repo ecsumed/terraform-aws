@@ -49,5 +49,11 @@
     "target": [
       "sumSeries(carbon.agents.*.cache.queries)"
     ]
+  },
+  {
+    "target": [
+      "sumSeries(carbon.agents.*.cache.overflow)"
+    ],
+    "majorGridLineColor": "C0C0C0"
   }
 ]
