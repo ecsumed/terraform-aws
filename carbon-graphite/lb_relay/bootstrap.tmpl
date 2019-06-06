@@ -108,6 +108,10 @@ match *
     send to graphite
     ;
 
+statistics
+    reset counters after interval
+    ;
+
 EOF
 
 cat>>/tmp/data-sender.py<<EOF
