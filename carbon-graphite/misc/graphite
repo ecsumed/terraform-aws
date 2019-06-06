@@ -13,7 +13,7 @@
       "carbon.relays.*.metricsDropped"
     ],
     "title": "Relay Queued and Dropped",
-    "colorList": "yellow,red"
+    "colorList": "orange,red"
   },
   {
     "target": [
@@ -21,11 +21,12 @@
       "carbon.relays.*.metricsStalls"
     ],
     "title": "Relay Blackholed and Stalled",
-    "colorList": "yellow,red"
+    "colorList": "orange,red"
   },
   {
     "target": [
-      "sumSeries(*.agents.*.cache.metrics)"
+      "sumSeries(*.agents.*.cache.metrics)",
+      "sumSeries(carbon.agents.*.cache.queues)"
     ],
     "margin": "",
     "lineWidth": "2",
@@ -34,7 +35,9 @@
   {
     "target": [
       "sumSeries(carbon.agents.*.persister.throttledCreates)",
-      "sumSeries(carbon.agents.*.persister.created)"
+      "sumSeries(carbon.agents.*.persister.created)",
+      "sumSeries(carbon.agents.*.creates)",
+      "sumSeries(carbon.agents.*.droppedCreates)"
     ],
     "title": "Carbon Creates and Throttled Creates"
   },
@@ -73,5 +76,11 @@
       "carbon.relays.*.disconnects"
     ],
     "title": "Relay Connects and Disconnects"
+  },
+  {
+    "target": [
+      "sumSeries(cg.host-89999.*)",
+      "sumSeries(cg.host-1.*)"
+    ]
   }
 ]
