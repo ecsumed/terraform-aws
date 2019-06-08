@@ -14,4 +14,4 @@ conn_priv_key = "<private key path>"
 
 
 ### load tester
-```./data-sender.py 90000 8 1000 10000 150 ```
+```./data-sender.py 90000 8 1000 10000 150 >> /tmp/data.log 2>&1```
