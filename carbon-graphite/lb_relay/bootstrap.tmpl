@@ -123,6 +123,7 @@ cat>>/tmp/data-sender.py<<EOF
 
 import sys
 from time import time
+from time import sleep
 from random import randint
 import socket
 
@@ -130,6 +131,11 @@ hosts = sys.argv[1:][0]
 metrics = sys.argv[1:][1]
 max_val = sys.argv[1:][2]
 batch = sys.argv[1:][3]
+
+try:
+    interval = float(sys.argv[1:][4])
+except:
+    interval = None
 
 host = "127.0.0.1"
 port = 2003
@@ -142,26 +148,39 @@ def netcat(host, port, content):
     s.shutdown(socket.SHUT_WR)
     s.close()
 
-epoch = time()
-current_batch = 0
-payload = ''
-for host in xrange(1, int(hosts) + 1):
-    for metric in xrange(1, int(metrics) + 1):
-        payload += "cg.host-{}.metric-{} {} {}\n".format(
-            host,
-            metric,
-            randint(0, int(max_val)),
-            epoch,
-        )
-        current_batch += 1
+def tick():
+    start = time()
+    epoch = time()
+    current_batch = 0
+    payload = ''
 
-        if current_batch >= int(batch):
-            netcat(host, port, payload)
-            current_batch = 0
-            payload = ""
+    for host in xrange(1, int(hosts) + 1):
+        for metric in xrange(1, int(metrics) + 1):
+            payload += "cg.host-{}.metric-{} {} {}\n".format(
+                host,
+                metric,
+                randint(0, int(max_val)),
+                epoch,
+            )
+            current_batch += 1
 
-if payload != "":
-    netcat(host, port, payload)
+            if current_batch >= int(batch):
+                netcat(host, port, payload)
+                current_batch = 0
+                payload = ""
+
+    if payload != "":
+         netcat(host, port, payload)
+
+    print "Epoch: {}, Duration {}s".format(epoch, (time() - start))
+
+if interval:
+    start_loop = time()
+    while True:
+        tick()
+        sleep(interval - ((time() - start_loop) % interval))
+else:
+    tick()
 EOF
 
 sudo apachectl -t && /usr/sbin/service apache2 restart
