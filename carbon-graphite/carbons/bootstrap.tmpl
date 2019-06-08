@@ -219,6 +219,13 @@ encoding-duration = "seconds"
 EOF
 #############################################
 
+###############Install go####################
+sudo wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz -O /tmp/go.tar.gz
+sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+sudo grep "go/bin" /root/.profile -q || echo "export PATH=$PATH:/usr/local/go/bin" >> /root/.profile
+sudo export PATH=$PATH:/usr/local/go/bin
+#############################################
+
 sudo apachectl -t && /usr/sbin/service apache2 restart
 
 sudo cp /tmp/carbon_conf /opt/graphite/conf/carbon.conf
