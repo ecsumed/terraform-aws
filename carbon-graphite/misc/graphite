@@ -1,42 +1,86 @@
 [
   {
     "target": [
-      "sumSeries(*.agents.*.metricsReceived)",
-      "sumSeries(*.agents.*.cache.queues)"
-    ]
+      "carbon.relays.*.metricsReceived",
+      "carbon.relays.*.metricsSent"
+    ],
+    "title": "Relay Received and Sent",
+    "colorList": "blue,green"
   },
   {
     "target": [
-      "sumSeries(*.relays.*.destinations.*.sent)",
-      "*.relays.*.metricsReceived"
-    ]
+      "carbon.relays.*.metricsQueued",
+      "carbon.relays.*.metricsDropped"
+    ],
+    "title": "Relay Queued and Dropped",
+    "colorList": "orange,red"
   },
   {
     "target": [
-      "sumSeries(*.agents.*.creates)",
-      "sumSeries(*.agents.*.droppedCreates)"
-    ]
+      "carbon.relays.*.metricsBlackholed",
+      "carbon.relays.*.metricsStalls"
+    ],
+    "title": "Relay Blackholed and Stalled",
+    "colorList": "orange,red"
+  },
+  {
+    "target": [
+      "sumSeries(*.agents.*.cache.metrics)",
+      "sumSeries(carbon.agents.*.cache.queues)"
+    ],
+    "margin": "",
+    "lineWidth": "2",
+    "title": "Carbon Cache Queues"
+  },
+  {
+    "target": [
+      "sumSeries(carbon.agents.*.persister.throttledCreates)",
+      "sumSeries(carbon.agents.*.persister.created)",
+      "sumSeries(carbon.agents.*.creates)",
+      "sumSeries(carbon.agents.*.droppedCreates)"
+    ],
+    "title": "Carbon Creates and Throttled Creates"
+  },
+  {
+    "target": [
+      "sumSeries(carbon.agents.*.cache.overflow)"
+    ],
+    "majorGridLineColor": "C0C0C0",
+    "title": "Carbon Cache Overflow",
+    "colorList": "red"
+  },
+  {
+    "target": [
+      "sumSeries(carbon.agents.*.updateOperations)",
+      "sumSeries(carbon.agents.*.persister.updateOperations)"
+    ],
+    "title": "Update Operations",
+    "colorList": "green"
+  },
+  {
+    "target": [
+      "carbon.agents.*.pointsPerUpdate",
+      "carbon.agents.*.persister.pointsPerUpdate"
+    ],
+    "title": "Points Per Update"
   },
   {
     "target": [
       "sumSeries(carbon.agents.*.cache.queries)"
-    ]
+    ],
+    "title": "Queries"
   },
   {
     "target": [
-      "carbon.agents.*.pointsPerUpdate"
-    ]
+      "carbon.relays.*.connections",
+      "carbon.relays.*.disconnects"
+    ],
+    "title": "Relay Connects and Disconnects"
   },
   {
     "target": [
-      "carbon.relays.*.destinations.*.queuedUntilReady",
-      "carbon.relays.*.destinations.*.relayMaxQueueLength",
-      "carbon.relays.*.destinations.*.fullQueueDrops"
-    ]
-  },
-  {
-    "target": [
-      "carbon.relays.*.destinations.*.batchesSent"
+      "sumSeries(cg.host-89999.*)",
+      "sumSeries(cg.host-1.*)"
     ]
   }
 ]

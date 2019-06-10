@@ -9,20 +9,25 @@ libpangocairo-1.0-0 \
 libffi-dev \
 libapache2-mod-wsgi \
 htop \
+git \
 unzip \
 libz-dev \
 libncurses5-dev \
+sysstat \
 
+############### Install atop latest ########################
 wget https://github.com/Atoptool/atop/archive/master.zip
 unzip master.zip
 cd atop-master/
 sudo make systemdinstall
+############################################################
 
 sudo export PYTHONPATH="/opt/graphite/lib/:/opt/graphite/webapp/"
 sudo pip install --no-binary=:all: https://github.com/graphite-project/whisper/tarball/master
 sudo pip install --no-binary=:all: https://github.com/graphite-project/carbon/tarball/master
 sudo pip install --no-binary=:all: https://github.com/graphite-project/carbon/tarball/master
 sudo pip install --no-binary=:all: https://github.com/graphite-project/graphite-web/tarball/master
+sudo pip install carbonate
 
 cat>>/tmp/graphite_vhost<<EOF
 LoadModule wsgi_module modules/mod_wsgi.so
@@ -140,12 +145,98 @@ pattern = .*
 retentions = 150s:1d,300s:2d,600s:3d,1200s:4d,2400s:5d
 EOF
 
+#############Install go carbon###############
+wget https://github.com/lomik/go-carbon/releases/download/v0.14.0/go-carbon_0.14.0_amd64.deb
+sudo dpkg -i go-carbon_0.14.0_amd64.deb
+
+cat>>/tmp/go-carbon.conf<<EOF
+[common]
+user = "carbon"
+graph-prefix = "carbon.agents.{host}"
+metric-endpoint = "local"
+metric-interval = "1m0s"
+max-cpu = 4
+
+[whisper]
+data-dir = "/mnt/whisper"
+schemas-file = "/opt/graphite/conf/storage-schemas.conf"
+workers = 8
+max-updates-per-second = 0
+max-creates-per-second = 0
+hard-max-creates-per-second = false
+sparse-create = false
+flock = false
+enabled = true
+hash-filenames = true
+
+[cache]
+max-size = 1000000
+write-strategy = "max"
+
+[udp]
+listen = "0.0.0.0:2003"
+enabled = true
+buffer-size = 0
+
+[tcp]
+listen = "0.0.0.0:2003"
+enabled = true
+buffer-size = 0
+
+[pickle]
+listen = "0.0.0.0:2004"
+max-message-size = 67108864
+enabled = true
+buffer-size = 0
+
+[carbonlink]
+listen = "0.0.0.0:7002"
+enabled = true
+read-timeout = "30s"
+
+[grpc]
+listen = "127.0.0.1:7003"
+enabled = true
+
+[tags]
+enabled = false
+
+[carbonserver]
+enabled = false
+
+[dump]
+enabled = false
+
+[pprof]
+enabled = false
+
+[[logging]]
+logger = ""
+file = "/var/log/go-carbon/go-carbon.log"
+level = "info"
+encoding = "mixed"
+encoding-time = "iso8601"
+encoding-duration = "seconds"
+EOF
+#############################################
+
+###############Install go####################
+sudo wget https://dl.google.com/go/go1.12.5.linux-amd64.tar.gz -O /tmp/go.tar.gz
+sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+sudo grep "go/bin" /root/.profile -q || echo "export PATH=$PATH:/usr/local/go/bin" | sudo tee -a /root/.profile
+sudo export PATH=$PATH:/usr/local/go/bin
+#############################################
+
 sudo apachectl -t && /usr/sbin/service apache2 restart
 
 sudo cp /tmp/carbon_conf /opt/graphite/conf/carbon.conf
 sudo cp /tmp/storage-schemas.conf /opt/graphite/conf/storage-schemas.conf
+sudo cp /tmp/go-carbon.conf /etc/go-carbon/go-carbon.conf
 
-sudo /opt/graphite/bin/carbon-cache.py --instance=${carbon_ch} start
+# sudo /opt/graphite/bin/carbon-cache.py --instance=${carbon_ch} start
+sudo systemctl restart go-carbon
+
+sudo chown carbon:carbon /mnt/whisper -R
 
 sudo /usr/sbin/service apache2 restart
 echo 'done'
