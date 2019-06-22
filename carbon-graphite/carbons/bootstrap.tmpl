@@ -83,6 +83,7 @@ sudo chown www-data:www-data /opt/graphite/storage/
 sudo echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'testpass')" | sudo PYTHONPATH=/opt/graphite/webapp django-admin.py shell --settings=graphite.settings
 
 sudo mkdir /mnt/whisper
+sudo mkdir /mnt/dump
 sudo rm -rf /opt/graphite/storage/whisper
 sudo ln -s /mnt/whisper /opt/graphite/storage/whisper
 
@@ -240,6 +241,7 @@ sudo cp /tmp/go-carbon.conf /etc/go-carbon/go-carbon.conf
 sudo systemctl restart go-carbon
 
 sudo chown carbon:carbon /mnt/whisper -R
+sudo chown carbon:carbon /mnt/dump -R
 
 sudo /usr/sbin/service apache2 restart
 echo 'done'
