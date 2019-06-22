@@ -155,12 +155,12 @@ user = "carbon"
 graph-prefix = "carbon.agents.{host}"
 metric-endpoint = "local"
 metric-interval = "1m0s"
-max-cpu = 4
+max-cpu = 3
 
 [whisper]
 data-dir = "/mnt/whisper"
 schemas-file = "/opt/graphite/conf/storage-schemas.conf"
-workers = 8
+workers = 6
 max-updates-per-second = 0
 max-creates-per-second = 0
 hard-max-creates-per-second = false
@@ -175,7 +175,7 @@ write-strategy = "max"
 
 [udp]
 listen = "0.0.0.0:2003"
-enabled = true
+enabled = false
 buffer-size = 0
 
 [tcp]
@@ -186,7 +186,7 @@ buffer-size = 0
 [pickle]
 listen = "0.0.0.0:2004"
 max-message-size = 67108864
-enabled = true
+enabled = false
 buffer-size = 0
 
 [carbonlink]
@@ -196,7 +196,7 @@ read-timeout = "30s"
 
 [grpc]
 listen = "127.0.0.1:7003"
-enabled = true
+enabled = false
 
 [tags]
 enabled = false
@@ -205,7 +205,10 @@ enabled = false
 enabled = false
 
 [dump]
-enabled = false
+enabled = true
+path = "/mnt/dump"
+# Restore speed. 0 - unlimited
+restore-per-second = 0
 
 [pprof]
 enabled = false
