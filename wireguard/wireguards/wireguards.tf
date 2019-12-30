@@ -58,8 +58,6 @@ resource "aws_instance" "instance" {
         AllowedIPs = 0.0.0.0/0
         PersistentKeepalive = 21
         EOF
-
-        wg-quick up wg0-client
   EOT
   }
 }
