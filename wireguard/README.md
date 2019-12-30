@@ -15,10 +15,11 @@ sudo apt-get install wireguard -y
 - Install terraform
 ```bash
 # Terraform Install (https://www.terraform.io/downloads.html)
-wget -q https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip \
-    -O /tmp/terraform.zip && \
-  unzip /tmp/terraform.zip -d /tmp/ && \
-  sudo mv /tmp/terraform /usr/local/bin/
+sudo wget -q https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip \
+      -O /tmp/terraform.zip && \
+    unzip /tmp/terraform.zip -d /tmp/ && \
+    mv /tmp/terraform /usr/local/bin/
+
 ```
 
 
@@ -34,6 +35,22 @@ region = "<region>"
 ```bash
 cd aws/wireguard
 ./setup.py
+# The ouput of this script will show commands to configure the wireguard-client config file
+# Run those commands with sudo 
+# Example
+cat>>/etc/wireguard/wg0-client.conf<<EOF
+[Interface]
+Address = 10.100.100.2/32
+PrivateKey = <sample-priv-key>
+
+[Peer]
+PublicKey = <sample-pub-key>
+Endpoint = <IP>:51820
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 21
+EOF
+
+sudo wg-quick up wg0-client
 ```
 
 ### Destroy
