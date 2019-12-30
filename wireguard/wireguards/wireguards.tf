@@ -47,17 +47,17 @@ resource "aws_instance" "instance" {
   }
   provisioner "local-exec" {
     command = <<EOT
-        cat>>/etc/wireguard/wg0-client.conf<<EOF
-        [Interface]
-        Address = 10.100.100.2/32
-        PrivateKey = ${var.client_priv_key} 
+cat>>/etc/wireguard/wg0-client.conf<<EOF
+[Interface]
+Address = 10.100.100.2/32
+PrivateKey = ${var.client_priv_key} 
 
-        [Peer]
-        PublicKey = ${var.serv_pub_key}
-        Endpoint = ${aws_instance.instance[0].public_ip}:51820
-        AllowedIPs = 0.0.0.0/0
-        PersistentKeepalive = 21
-        EOF
+[Peer]
+PublicKey = ${var.serv_pub_key}
+Endpoint = ${aws_instance.instance[0].public_ip}:51820
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 21
+EOF
   EOT
   }
 }
