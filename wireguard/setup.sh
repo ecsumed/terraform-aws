@@ -3,27 +3,6 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
-wiregurad_install=$(wg --help)
-if [[ $wiregurad_install != *"Available subcommands"* ]]; then
-    # Wireguard Install(https://www.wireguard.com/install/)
-    add-apt-repository ppa:wireguard/wireguard -y
-    apt-get update
-    apt-get install wireguard -y
-else
-    echo "Wireguard already installed..."
-fi
-
-terraform_install=$(terraform --version)
-if [[ $terraform_install != *"Terraform"* ]]; then
-    # Terraform Install (https://www.terraform.io/downloads.html)
-    wget -q https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip \
-        -O /tmp/terraform.zip && \
-      unzip /tmp/terraform.zip -d /tmp/ && \
-      mv /tmp/terraform /usr/local/bin/
-else
-    echo "Terraform already installed..."
-fi
-
 # Generate Keys
 SERV_PRIV_KEY=$(wg genkey)
 SERV_PUB_KEY=$(echo ${SERV_PRIV_KEY} | wg pubkey)
