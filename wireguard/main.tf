@@ -8,24 +8,31 @@ variable "region" {
 }
 
 variable "conn_user" {
+    default = ""
 }
 
 variable "conn_pub_key" {
+    default = ""
 }
 
 variable "conn_priv_key" {
+    default = ""
 }
 
 variable "serv_priv_key" {
+    default = ""
 }
 
 variable "serv_pub_key" {
+    default = ""
 }
 
 variable "client_priv_key" {
+    default = ""
 }
 
 variable "client_pub_key" {
+    default = ""
 }
 
 variable "wg_hosts" {

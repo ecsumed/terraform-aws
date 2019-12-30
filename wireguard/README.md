@@ -1,42 +1,34 @@
 ## Requirements
-* Wireguard
-* Terraform (>0.12)
-
-#### Wireguard Install(https://www.wireguard.com/install/)
-##### Ubuntu
-```bash
-$ sudo add-apt-repository ppa:wireguard/wireguard
-$ sudo apt-get update
-$ sudo apt-get install wireguard
-```
-
-#### Terraform Install (https://www.terraform.io/downloads.html)
-##### Linux
-```bash
-cd /tmp
-wget https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip && \
-  unzip terraform_0.12.18_linux_amd64.zip && \
-  mv terraform /usr/local/bin/
-```
+* [Wireguard](https://www.wireguard.com/install/)
+* [Terraform](https://www.terraform.io/downloads.html) (>0.12)
+* AWS access key/secret
 
 ## Usage
 
-```bash
-terraform plan -var-file="local_settings.tfvars"
-```
+First, setup `local_settings.tfvars` inside the `aws/wireguard` directory:
 
-### local_settings.tfvars
 ```bash
 aws_access_key_id = "<key>"
 aws_secret_access_key = "<secret>"
 region = "<region>"
-conn_user = "<image ssh user>"
-conn_pub_key = "<pub key path>"
-conn_priv_key = "<private key path>"
+```
 
-# wg genkey | tee >(wg pubkey)
-serv_priv_key = ""
-serv_pub_key = ""
-client_priv_key = ""
-client_pub_key = ""
+### Provision:
+```bash
+cd aws/wireguard
+./setup.py
+```
+
+### Destroy:
+```bash
+cd aws/wireguard
+sudo terraform destroy -var-file="local_settings.tfvars" -auto-approve
+```
+
+###### Wireguard interface commands:
+```bash 
+# up
+sudo wg-quick up wg0-client
+# down
+sudo wg-quick down wg0-client
 ```
